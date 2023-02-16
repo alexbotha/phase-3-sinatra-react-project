@@ -1,55 +1,54 @@
 class ReviewsController < ApplicationController
 
   get "/reviews" do 
-    @review = Review.all
-    review_to_json
+    review = Review.all
+    review.to_json(include: :restuarant)
   end 
 
    get "/reviews/:id" do 
-    find_review
-    review_to_json 
+    review = Review.find_by(id: params[:id])
+    review.to_json
   end 
 
+
+#     patch "/reviews/:id" do
+#     review = Review.find(params[:id])
+#     review.update(
+#       review: params[:review], rating: params[:rating], company_name: params[:company_name],
+#       restuarant_id: Restuarant.find_by(name: params[:company_name].capitalize()).id
+#     )
+#     review.to_json(include: :restuarant)
+# end
+
+  
   post "/reviews" do 
-    @review = Review.new(params)
-    if @review.save 
-     @review_to_json
- else
-  review_error_message 
-  end
+    review = Review.create(
+      review: params[:review].capitalize(), rating: params[:rating], 
+      company_name: params[:company_name].capitalize(), 
+      restuarant_id: Restuarant.find_by(name: params[:company_name].capitalize()).id
+    )
+      review.to_json(include: :restuarant)    
 end 
 
   delete "/reviews/:id" do 
-   find_review
-    if @review 
-    @review.destroy
-    @review.to_json
+    review = Review.find_by(id: params[:id])
+    if review 
+      review.destroy
+      review.to_json
     else 
-      {errors: ["Review doesn't exist "]}.to_json  
+      {errors: ["Review doesn't exist "]}.to_json
+    
   end 
-end 
+  end
 
   patch "/reviews/:id" do
-    find_review
-    if @review.update(params)
-      review_to_json
-    else 
-    review_error_message 
-  end 
+   review = Review.find_by(id: params[:id])
+    review.update(
+      review: params[:review],
+      rating: params[:rating]
+      )
+    review.to_json
 end
 
-private 
-  def find_review
-    @review = Review.find_by_id(params["id"])
-  end 
-
-  def review_to_json 
-    @review.to_json(include: [:restuarant])
-  end 
-
-  def review_error_message 
-    {errors: @review.errors.full_messages}.to_json
-  end 
- 
 
 end 
