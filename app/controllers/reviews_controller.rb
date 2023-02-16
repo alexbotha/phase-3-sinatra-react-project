@@ -11,14 +11,15 @@ class ReviewsController < ApplicationController
   end 
 
 
-#     patch "/reviews/:id" do
-#     review = Review.find(params[:id])
-#     review.update(
-#       review: params[:review], rating: params[:rating], company_name: params[:company_name],
-#       restuarant_id: Restuarant.find_by(name: params[:company_name].capitalize()).id
-#     )
-#     review.to_json(include: :restuarant)
-# end
+    patch "/reviews/:id" do
+      
+    review = Review.find(params[:id])
+    review.update(
+      review: params[:review], rating: params[:rating], company_name: params[:company_name],
+      restuarant_id: Restuarant.find_by(name: params[:company_name].capitalize()).id
+    )
+    review.to_json(include: :restuarant)
+end
 
   
   post "/reviews" do 
@@ -41,14 +42,14 @@ end
   end 
   end
 
-  patch "/reviews/:id" do
-   review = Review.find_by(id: params[:id])
-    review.update(
-      review: params[:review],
-      rating: params[:rating]
-      )
-    review.to_json
-end
+#   patch "/reviews/:id" do
+#    review = Review.find_by(id: params[:id])
+#     review.update(
+#       review: params[:review],
+#       rating: params[:rating]
+#       )
+#     review.to_json
+# end
 
 
 end 
