@@ -16,9 +16,9 @@ end
 
 post "/restuarants" do 
  restuarant = Restuarant.create(
-  cuisine: params[:cuisine].capitalize(), 
+  cuisine: params[:cuisine].titleize(), 
   overall_rating: params[:overall_rating], 
-  website: params[:website], name: params[:name].capitalize())
+  website: params[:website], name: params[:name].titleize())
  
   if restuarant.save 
     restuarant.to_json(include: :reviews)

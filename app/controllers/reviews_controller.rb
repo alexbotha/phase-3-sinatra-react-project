@@ -15,8 +15,8 @@ class ReviewsController < ApplicationController
       
     review = Review.find(params[:id])
     review.update(
-      review: params[:review], rating: params[:rating], company_name: params[:company_name],
-      restuarant_id: Restuarant.find_by(name: params[:company_name].capitalize()).id
+      review: params[:review], rating: params[:rating], company_name: params[:company_name].titleize(),
+      restuarant_id: Restuarant.find_by(name: params[:company_name].titleize()).id
     )
     review.to_json(include: :restuarant)
 end
@@ -25,8 +25,8 @@ end
   post "/reviews" do 
     review = Review.create(
       review: params[:review].capitalize(), rating: params[:rating], 
-      company_name: params[:company_name].capitalize(), 
-      restuarant_id: Restuarant.find_by(name: params[:company_name].capitalize()).id
+      company_name: params[:company_name].titleize(), 
+      restuarant_id: Restuarant.find_by(name: params[:company_name].titleize()).id
     )
       review.to_json(include: :restuarant)    
 end 
