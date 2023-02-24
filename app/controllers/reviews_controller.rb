@@ -12,23 +12,22 @@ class ReviewsController < ApplicationController
 
 
     patch "/reviews/:id" do
-      
     review = Review.find(params[:id])
     review.update(
-      review: params[:review], rating: params[:rating], company_name: params[:company_name].titleize(),
-      restuarant_id: Restuarant.find_by(name: params[:company_name].titleize()).id
+      review: params[:review].capitalize(), rating: params[:rating]
     )
     review.to_json(include: :restuarant)
 end
 
-  
-  post "/reviews" do 
-    review = Review.create(
-      review: params[:review].capitalize(), rating: params[:rating], 
-      company_name: params[:company_name].titleize(), 
-      restuarant_id: Restuarant.find_by(name: params[:company_name].titleize()).id
+
+post "/restuarants/:restuarant_id/reviews" do 
+  restuarant = Restuarant.find_by(id: params[:restuarant_id])
+  review = Review.create(
+    review: params[:review].capitalize(), rating: params[:rating],  
+    company_name: Restuarant.find_by(id: params[:restuarant_id]).name,
+    restuarant_id: Restuarant.find_by(id: params[:restuarant_id]).id
     )
-      review.to_json(include: :restuarant)    
+    review.to_json(include: :restuarant)      
 end 
 
   delete "/reviews/:id" do 
