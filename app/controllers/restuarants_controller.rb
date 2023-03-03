@@ -1,3 +1,4 @@
+require 'pry'
 class RestuarantsController < ApplicationController
 
   get "/restuarants" do 
@@ -7,11 +8,7 @@ class RestuarantsController < ApplicationController
   
   get "/restuarants/:id" do 
     restuarant = Restuarant.find_by(id: params[:id])
-    if restuarant
-    restuarant.to_json(include: :reviews)
-    else 
-      "Restuarant not found"
-    end
+    restuarant.to_json(include: :reviews)    
 end
 
 post "/restuarants" do 
@@ -19,22 +16,13 @@ post "/restuarants" do
   cuisine: params[:cuisine].titleize(), 
   overall_rating: params[:overall_rating], 
   website: params[:website], name: params[:name].titleize())
- 
-  if restuarant.save 
     restuarant.to_json(include: :reviews)
-  else
-    {errors: restuarant.errors.full_messages}.to_json
-  end
 end 
 
 delete "/restuarants/:id" do 
   restuarant = Restuarant.find_by(id: params[:id])
-  if restuarant 
     restuarant.destroy
     restuarant.to_json
-  else 
-    {errors: ["Restuarant doesn't exist "]}.to_json 
-end 
 end
 
 end 
