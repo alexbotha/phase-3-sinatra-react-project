@@ -5,13 +5,12 @@ class ReviewsController < ApplicationController
     review.to_json(include: :restuarant)
   end 
 
-   get "/reviews/:id" do 
+  get "/reviews/:id" do 
     review = Review.find_by(id: params[:id])
     review.to_json
   end 
 
-
-    patch "/reviews/:id" do
+  patch "/reviews/:id" do
     review = Review.find(params[:id])
     review.update(
       review: params[:review].capitalize(), rating: params[:rating]
@@ -29,17 +28,13 @@ post "/restuarants/:restuarant_id/reviews" do
     review.to_json(include: :restuarant)      
 end 
 
-  delete "/reviews/:id" do 
-    review = Review.find_by(id: params[:id])
-    if review 
-      review.destroy
-      review.to_json
-    else 
-      {errors: ["Review doesn't exist "]}.to_json
-    
-  end 
+delete "/reviews/:id" do 
+  review = Review.find_by(id: params[:id])
+  review.destroy
+  review.to_json
   end
-
+  
+end 
 #   patch "/reviews/:id" do
 #    review = Review.find_by(id: params[:id])
 #     review.update(
@@ -49,5 +44,3 @@ end
 #     review.to_json
 # end
 
-
-end 
