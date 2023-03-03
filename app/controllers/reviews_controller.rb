@@ -11,7 +11,7 @@ class ReviewsController < ApplicationController
   end 
 
   patch "/reviews/:id" do
-    review = Review.find(params[:id])
+    review = Review.find_by(id: params[:id])
     review.update(
       review: params[:review].capitalize(), rating: params[:rating]
     )
@@ -35,12 +35,5 @@ delete "/reviews/:id" do
   end
   
 end 
-#   patch "/reviews/:id" do
-#    review = Review.find_by(id: params[:id])
-#     review.update(
-#       review: params[:review],
-#       rating: params[:rating]
-#       )
-#     review.to_json
-# end
+
 
