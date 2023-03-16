@@ -19,8 +19,8 @@ class ReviewsController < ApplicationController
 end
 
 
-post "/restuarants/:restuarant_id/reviews" do 
-  restuarant = Restuarant.find_by(id: params[:restuarant_id])
+post "/restaurants/:restaurant_id/reviews" do 
+  restaurant = Restuarant.find_by(id: params[:restuarant_id])
   review = Review.create(
     review: params[:review].capitalize(), rating: params[:rating],  
     company_name: restuarant.name, restuarant_id: restuarant.id
